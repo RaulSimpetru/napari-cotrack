@@ -1,0 +1,35 @@
+name: Publish to PyPI
+
+# Triggers on every annotated tag matching v*. Bump pyproject.toml's version
+# in a commit, then `git tag -a vX.Y.Z -m "..."` and `git push --tags`. The
+# workflow builds with uv and uploads through the OIDC Trusted Publisher set
+# up at https://pypi.org/manage/account/publishing/ — no API token here.
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write     # required for OIDC token exchange with PyPI
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Build sdist + wheel
+        run: uv build
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist/
