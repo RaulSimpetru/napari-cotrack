@@ -6,6 +6,12 @@ the rest of the video; iterate by fixing wrong predictions and re-running.
 
 ## Install
 
+**Prebuilt binaries**
+
+Or download a prebuilt binary for macOS (Apple Silicon), Linux x86_64, or Windows x86_64 from the [Releases page](../../releases).
+
+> **Note:** Bundles are ~1 GB because torch, napari, and Qt are included. On macOS you will need to right-click → Open the first time (unsigned binary).
+
 ```bash
 uv sync
 uv run napari-cotrack
