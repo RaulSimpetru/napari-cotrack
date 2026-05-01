@@ -11,9 +11,36 @@ uv sync
 uv run napari-cotrack
 ```
 
-`uv run` opens napari with the plugin's dock widget already visible on the
-right. The first launch is slow because uv pulls torch + the pinned
-CoTracker3 commit from facebookresearch/co-tracker.
+Or, install once and call from anywhere:
+
+```bash
+uv tool install git+https://github.com/RaulSimpetru/napari-cotrack
+napari-cotrack
+```
+
+`napari-cotrack` opens napari with the plugin's dock widget already on the
+right. The first launch is slow because uv pulls torch.
+
+### Optional: install ffmpeg for the fast extract-all path
+
+Stage 4's "Extract all frames" can either dump every frame in a single
+ffmpeg pass (~10–50× faster on H.264 sources) or fall back to a per-frame
+imageio loop if ffmpeg isn't on `PATH`.
+
+| OS | Install ffmpeg |
+|---|---|
+| macOS | `brew install ffmpeg` |
+| Ubuntu / Debian | `sudo apt install ffmpeg` |
+| Windows | `winget install ffmpeg` (or download from gyan.dev) |
+
+## Tested platforms
+
+- **macOS arm64 (Apple Silicon)** — primary development target, end-to-end
+  tested on a real 1500-frame project.
+- **Linux x86_64** and **Windows x86_64** — code is portable (PyQt6 +
+  pathlib + ffmpeg subprocess + napari thread_worker), all deps publish
+  wheels for these platforms, but I haven't run the GUI on them.
+  Open an issue if anything breaks — should be a small fix.
 
 ## The five-stage loop
 
