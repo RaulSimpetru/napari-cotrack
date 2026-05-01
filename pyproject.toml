@@ -1,6 +1,6 @@
 [project]
 name = "napari-cotrack"
-version = "0.1.2"
+version = "0.1.3"
 description = "Anchor-based keypoint tracking through CoTracker3, as a napari plugin."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -36,7 +36,10 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://nsquared-nas.aibe.uni-erlangen.de/oj98yqyk/naparitracker"
+Homepage = "https://github.com/RaulSimpetru/napari-cotrack"
+Repository = "https://github.com/RaulSimpetru/napari-cotrack"
+Issues = "https://github.com/RaulSimpetru/napari-cotrack/issues"
+Changelog = "https://github.com/RaulSimpetru/napari-cotrack/releases"
 
 [project.scripts]
 napari-cotrack = "napari_cotrack.__main__:main"
