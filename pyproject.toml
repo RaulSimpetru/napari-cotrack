@@ -1,0 +1,72 @@
+[project]
+name = "napari-cotrack"
+version = "0.1.0"
+description = "Anchor-based keypoint tracking through CoTracker3, as a napari plugin."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Raul C. Simpetru", email = "raul.simpetru@fau.de" }]
+keywords = ["napari", "napari-plugin", "tracking", "cotracker", "keypoints"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Framework :: napari",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Image Processing",
+]
+dependencies = [
+    "einops>=0.8",
+    "imageio[ffmpeg]>=2.37",
+    "matplotlib>=3.10",
+    "napari>=0.5",
+    "numpy>=2.4",
+    "opencv-python>=4.10",
+    "pandas>=3.0",
+    "pyqt6>=6.7",
+    "scikit-learn>=1.5",
+    "scipy>=1.17",
+    "tomli-w>=1.2",
+    "torch>=2.11",
+    "torchvision>=0.26",
+    "tqdm>=4.65",
+]
+
+[project.urls]
+Homepage = "https://nsquared-nas.aibe.uni-erlangen.de/oj98yqyk/naparitracker"
+
+[project.scripts]
+napari-cotrack = "napari_cotrack.__main__:main"
+
+[project.entry-points."napari.manifest"]
+napari-cotrack = "napari_cotrack:napari.yaml"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+# Both top-level packages ship: the plugin AND the vendored CoTracker3.
+# CoTracker isn't on PyPI, so vendoring is the only way to publish napari-cotrack
+# without a direct-URL dep (which PyPI rejects).
+packages = ["src/napari_cotrack", "src/cotracker"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/napari_cotrack/napari.yaml" = "napari_cotrack/napari.yaml"
+
+[tool.uv]
+override-dependencies = [
+    "numpy>=2.4",
+]
+required-environments = [
+    "sys_platform == 'darwin' and platform_machine == 'arm64'",
+    "sys_platform == 'linux' and platform_machine == 'x86_64'",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+]

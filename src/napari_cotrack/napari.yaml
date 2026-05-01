@@ -1,0 +1,10 @@
+name: napari-cotrack
+display_name: napari-cotrack
+contributions:
+  commands:
+    - id: napari-cotrack.make_widget
+      python_name: napari_cotrack.plugin:NapariCotrackWidget
+      title: Open napari-cotrack panel
+  widgets:
+    - command: napari-cotrack.make_widget
+      display_name: napari-cotrack

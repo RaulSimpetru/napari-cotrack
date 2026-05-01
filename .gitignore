@@ -1,0 +1,21 @@
+# venv & build
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+
+# editor
+.vscode/
+.idea/
+.DS_Store
+
+# project state
+state.json
+
+# hello_imgui / napari ini state
+*.ini
+
+# pytest
+.pytest_cache/
