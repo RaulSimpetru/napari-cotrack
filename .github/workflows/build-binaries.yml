@@ -41,6 +41,13 @@ jobs:
         run: uv python install 3.12
 
       - name: Install project dependencies
+        # On Linux, force CPU-only torch wheels. CUDA wheels add ~1.2 GB of
+        # cudart/cudnn libs and push the PyInstaller tarball past GitHub
+        # Releases' 2 GB-per-asset cap. CUDA users should install via
+        # `uv tool install napari-cotrack` instead. macOS arm64 has no CUDA
+        # wheels at all (MPS); Windows CUDA fits under 2 GB.
+        env:
+          UV_TORCH_BACKEND: ${{ runner.os == 'Linux' && 'cpu' || 'auto' }}
         run: uv sync --all-extras
 
       - name: Build one-folder bundle
