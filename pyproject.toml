@@ -1,6 +1,6 @@
 [project]
 name = "napari-cotrack"
-version = "0.1.6"
+version = "0.1.7"
 description = "Anchor-based keypoint tracking through CoTracker3, as a napari plugin."
 readme = "README.md"
 requires-python = ">=3.12"

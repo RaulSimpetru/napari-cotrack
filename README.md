@@ -6,32 +6,40 @@ the rest of the video; iterate by fixing wrong predictions and re-running.
 
 ## Install
 
-**Prebuilt binaries**
+The recommended path on every platform is the one-shot bootstrap script. It
+installs [`uv`](https://docs.astral.sh/uv/) if you don't already have it, then
+`uv tool install napari-cotrack` — putting `napari-cotrack` on your PATH and
+fetching the ~1.5 GB of Python deps (torch, napari, cv2, …) on first run.
 
-Or download a prebuilt binary for macOS (Apple Silicon), Linux x86_64, or Windows x86_64 from the [Releases page](../../releases).
+**macOS / Linux:**
+```bash
+curl -LsSf https://raw.githubusercontent.com/RaulSimpetru/napari-cotrack/main/scripts/install.sh | bash
+```
 
-> **Note:** Bundles are ~1 GB because torch, napari, and Qt are included. On macOS you will need to right-click → Open the first time (unsigned binary).
+**Windows (PowerShell):**
+```powershell
+irm https://raw.githubusercontent.com/RaulSimpetru/napari-cotrack/main/scripts/install.ps1 | iex
+```
 
+Then run `napari-cotrack`. To upgrade later: `uv tool upgrade napari-cotrack`.
+
+### Already have uv?
+```bash
+uv tool install napari-cotrack
+napari-cotrack
+```
+
+### Working in a clone of the repo?
 ```bash
 uv sync
 uv run napari-cotrack
 ```
 
-Or, install once and call from anywhere:
-
-```bash
-uv tool install git+https://github.com/RaulSimpetru/napari-cotrack
-napari-cotrack
-```
-
-`napari-cotrack` opens napari with the plugin's dock widget already on the
-right. The first launch is slow because uv pulls torch.
-
 ### Optional: install ffmpeg for the fast extract-all path
 
-Stage 4's "Extract all frames" can either dump every frame in a single
-ffmpeg pass (~10–50× faster on H.264 sources) or fall back to a per-frame
-imageio loop if ffmpeg isn't on `PATH`.
+Stage 4's "Extract all frames" runs in a single ffmpeg pass (~10–50× faster on
+H.264 sources) when ffmpeg is on `PATH`, otherwise falls back to a per-frame
+imageio loop.
 
 | OS | Install ffmpeg |
 |---|---|
