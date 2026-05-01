@@ -43,11 +43,12 @@ jobs:
       - name: Install project dependencies
         run: uv sync --all-extras
 
-      - name: Install PyInstaller (build-time only)
-        run: uv tool install "pyinstaller>=6.10"
-
       - name: Build one-folder bundle
-        run: uv run pyinstaller pyinstaller.spec --noconfirm
+        # uv tool install isolates pyinstaller in its OWN venv (no torch,
+        # no napari) — then collect_all() silently sees nothing and ships
+        # an empty bundle. `--with` layers pyinstaller on top of the
+        # project venv so Analysis can actually find what to collect.
+        run: uv run --with "pyinstaller>=6.10" pyinstaller pyinstaller.spec --noconfirm
 
       # ── Archive (macOS / Linux) ───────────────────────────────────────────
       - name: Archive bundle (tar, Unix)
